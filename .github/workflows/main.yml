@@ -20,7 +20,7 @@ jobs:
         protocol: ftp
         passive: true
         dangerous-clean-slate: false
-        timeout: 120000
+        timeout: 300000
         exclude: |
           */.git
           */.git/**
