@@ -16,6 +16,11 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: /public_html/
+        protocol: ftp
+        passive: true
+        dangerous-clean-slate: false
+        timeout: 120000
         exclude: |
           */.git
           */.git/**
