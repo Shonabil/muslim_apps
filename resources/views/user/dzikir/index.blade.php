@@ -20,15 +20,20 @@
 
     <!-- Search bar -->
     <div class="max-w-md mx-auto px-4 mb-8">
-        <div class="relative">
-            <input type="text" placeholder="Cari dzikir..."
-                   class="w-full pl-4 pr-10 py-3 rounded-full border-2 border-emerald-200 focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">
-            <button class="absolute right-3 top-3 text-emerald-500">
+        <form action="{{ route('user.dzikir.index') }}" method="GET" class="relative">
+            <input
+                type="text"
+                name="search"
+                placeholder="Cari dzikir..."
+                value="{{ request('search') }}"
+                class="w-full pl-4 pr-10 py-3 rounded-full border-2 border-emerald-200 focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
+            >
+            <button type="submit" class="absolute right-3 top-3 text-emerald-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </button>
-        </div>
+        </form>
     </div>
 
     <!-- Kartu-kartu Dzikir -->
@@ -81,37 +86,59 @@
         </div>
     </div>
 
-    <!-- Navigasi pagination dengan styling khusus - hanya tampil jika ada data -->
-    @if(count($dzikirs) > 0)
-        <div class="flex justify-center mb-12">
-            <nav>
-                <ul class="flex space-x-2">
-                    <li>
-                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li><a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-emerald-600 text-white">1</a></li>
-                    <li><a href="#" class="w-10 h-10 flex items-center justify-center rounded-full text-emerald-600 border border-emerald-200 hover:bg-emerald-50">2</a></li>
-                    <li><a href="#" class="w-10 h-10 flex items-center justify-center rounded-full text-emerald-600 border border-emerald-200 hover:bg-emerald-50">3</a></li>
-                    <li>
-                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    @endif
+         <!-- Navigasi pagination dengan styling khusus - hanya tampil jika ada data -->
+   @if ($dzikirs->hasPages())
+    <ul class="flex flex-wrap justify-center gap-2 mt-10">
+        {{-- Tombol sebelumnya --}}
+        @if ($dzikirs->onFirstPage())
+            <li>
+                <span class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </li>
+        @else
+            <li>
+                <a href="{{ $dzikirs->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </li>
+        @endif
 
-    <!-- Footer ornamen Islam -->
-    <div class="w-full h-16 bg-contain bg-center bg-no-repeat opacity-10 mx-auto"
-         style="background-image: url('/images/islamic-footer-ornament.png')">
-    </div>
+        {{-- Nomor halaman --}}
+        @foreach ($dzikirs->getUrlRange(1, $dzikirs->lastPage()) as $page => $url)
+            <li>
+                <a href="{{ $url }}"
+                   class="w-10 h-10 flex items-center justify-center rounded-full border
+                          {{ $dzikirs->currentPage() == $page ? 'bg-emerald-600 text-white' : 'text-emerald-600 hover:bg-emerald-50' }}">
+                    {{ $page }}
+                </a>
+            </li>
+        @endforeach
+
+        {{-- Tombol selanjutnya --}}
+        @if ($dzikirs->hasMorePages())
+            <li>
+                <a href="{{ $dzikirs->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </li>
+        @else
+            <li>
+                <span class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </li>
+        @endif
+        @endif
+    </ul>
 </div>
 @endsection
 

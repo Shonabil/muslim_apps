@@ -3,43 +3,42 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Header Section -->
-<div class="flex flex-col sm:flex-row justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-emerald-50 to-emerald-100">
-    <!-- Judul dan Deskripsi -->
-    <div class="mb-4 sm:mb-0 text-center sm:text-left">
-        <h5 class="text-2xl font-bold text-gray-800 tracking-tight">Manajemen Dzikir</h5>
-        <p class="text-sm text-gray-500 mt-1">Kelola koleksi dzikir dengan mudah dan efisien</p>
+    <div class="flex flex-col sm:flex-row justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-emerald-50 to-emerald-100">
+        <!-- Judul dan Deskripsi -->
+        <div class="mb-4 sm:mb-0 text-center sm:text-left">
+            <h5 class="text-2xl font-bold text-gray-800 tracking-tight">Manajemen Dzikir</h5>
+            <p class="text-sm text-gray-500 mt-1">Kelola koleksi dzikir dengan mudah dan efisien</p>
+        </div>
+
+
+        <!-- Tombol Aksi -->
+        <div class="flex flex-col sm:flex-row gap-4">
+            <!-- Ke User -->
+            <a href="{{ route('user.dzikir.index') }}"
+               class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg flex items-center transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M9.707 4.293a1 1 0 010 1.414L6.414 9H16a1 1 0 110 2H6.414l3.293 3.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 0z"
+                          clip-rule="evenodd" />
+                </svg>
+                <span class="font-medium">Ke User</span>
+            </a>
+
+            <!-- Tambah Dzikir -->
+            <a href="{{ route('admin.dzikir.create') }}"
+               class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg flex items-center transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                          clip-rule="evenodd" />
+                </svg>
+                <span class="font-medium">Tambah Dzikir</span>
+            </a>
+        </div>
     </div>
-
-    <!-- Tombol Aksi -->
-    <div class="flex flex-col sm:flex-row gap-4">
-        <!-- Ke User -->
-        <a href="{{ route('user.dzikir.index') }}"
-           class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg flex items-center transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                      d="M9.707 4.293a1 1 0 010 1.414L6.414 9H16a1 1 0 110 2H6.414l3.293 3.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 0z"
-                      clip-rule="evenodd" />
-            </svg>
-            <span class="font-medium">Ke User</span>
-        </a>
-
-        <!-- Tambah Dzikir -->
-        <a href="{{ route('admin.dzikir.create') }}"
-           class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg flex items-center transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                      clip-rule="evenodd" />
-            </svg>
-            <span class="font-medium">Tambah Dzikir</span>
-        </a>
-    </div>
-</div>
-
-
 
     <!-- Dzikir Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         @forelse($dzikirs as $dzikir)
             <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 transform hover:scale-102">
                 <div class="p-6">
@@ -77,16 +76,14 @@
                             </svg>
                             Edit
                         </a>
-                        <form action="{{ route('admin.dzikir.destroy', $dzikir->id) }}" method="POST" class="w-1/2" onsubmit="return confirm('Yakin ingin menghapus dzikir ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="w-full flex items-center justify-center bg-red-50 text-red-600 px-3 py-2 rounded-lg hover:bg-red-100 transition duration-200 font-medium">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                </svg>
-                                Hapus
-                            </button>
-                        </form>
+                        <button type="button"
+                                class="flex items-center justify-center w-1/2 bg-red-50 text-red-600 px-3 py-2 rounded-lg hover:bg-red-100 transition duration-200 font-medium"
+                                onclick="openDeleteModal('{{ $dzikir->id }}', '{{ $dzikir->title }}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            Hapus
+                        </button>
                     </div>
                 </div>
             </div>
@@ -116,6 +113,61 @@
         {{ $dzikirs->links() }}
     </div>
     @endif
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Backdrop with opacity -->
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity" id="modal-backdrop"></div>
+
+    <!-- Modal panel -->
+    <div class="bg-white rounded-lg max-w-md w-full mx-4 overflow-hidden shadow-xl transform transition-all">
+        <!-- Modal header -->
+        <div class="bg-red-50 px-6 py-4 border-b border-red-100">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-red-800 flex items-center" id="modal-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Konfirmasi Hapus
+                </h3>
+                <button type="button" class="text-gray-400 hover:text-gray-500" onclick="closeDeleteModal()">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal content -->
+        <div class="px-6 py-4">
+            <div class="sm:flex sm:items-start">
+                <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                    <p class="text-gray-700">Apakah Anda yakin ingin menghapus dzikir:</p>
+                    <p class="font-semibold text-red-600 mt-1" id="dzikirTitle"></p>
+                    <p class="text-sm text-gray-500 mt-2">Tindakan ini tidak dapat dibatalkan dan semua data terkait akan dihapus secara permanen.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal actions -->
+        <div class="bg-gray-50 px-6 py-4 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+            <button type="button"
+                    class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    onclick="closeDeleteModal()">
+                Batal
+            </button>
+
+            <form id="deleteForm" method="POST" class="w-full sm:w-auto">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                        class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Hapus
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -153,5 +205,62 @@
         color: #9ca3af;
         cursor: not-allowed;
     }
+
+    /* Modal animation */
+    #deleteModal {
+        transition: opacity 0.3s ease;
+    }
+
+    #deleteModal.active {
+        opacity: 1;
+    }
+
+    #deleteModal:not(.active) {
+        opacity: 0;
+    }
+
+    /* Fix for hover scale */
+    .hover\:scale-102:hover {
+        transform: scale(1.02);
+    }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    function openDeleteModal(id, title) {
+        // Set the title in the modal
+        document.getElementById('dzikirTitle').textContent = title;
+
+        // Set the form action correctly using URL helper
+        const form = document.getElementById('deleteForm');
+        form.action = "{{ url('admin/dzikir') }}/" + id;
+
+        // Show the modal with animation
+        const modal = document.getElementById('deleteModal');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+
+        // Add event listener to close modal when clicking outside
+        document.getElementById('modal-backdrop').addEventListener('click', closeDeleteModal);
+    }
+
+    function closeDeleteModal() {
+        // Hide the modal with animation
+        const modal = document.getElementById('deleteModal');
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeDeleteModal();
+        }
+    });
+</script>
 @endpush

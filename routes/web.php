@@ -3,14 +3,13 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuranController;
-use App\Http\Controllers\DoaHarianController;
 use App\Http\Controllers\jadwalsholatController;
-
 use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\Admin\UserController;
-
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\DoaController;
 use App\Http\Controllers\Admin\DzikirController as AdminDzikirController;
+use App\Http\Controllers\User\DoaController as UserDoaController;
 use App\Http\Controllers\User\DzikirController as UserDzikirController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +40,14 @@ Route::get('/dashboard', [QuranController::class, 'index'])
         Route::delete('articles/{article}', [ArticleController::class, 'destroy'])->name('admin.article.destroy');
     });
 
+Route::prefix(('admin'))->group(function () {
+    Route::get('doa', [DoaController::class, 'index'])->name('admin.doa.index');
+    Route::get('doa/create', [DoaController::class, 'create'])->name('admin.doa.create');
+    Route::post('doa', [DoaController::class, 'store'])->name('admin.doa.store');
+    Route::get('doa/{doa}/edit', [DoaController::class, 'edit'])->name('admin.doa.edit');
+    Route::put('doa/{doa}', [DoaController::class, 'update'])->name('admin.doa.update');
+    Route::delete('doa/{doa}', [DoaController::class, 'destroy'])->name('admin.doa.destroy');
+});
 
     Route::prefix('admin')->group(function () {
         Route::get('dzikir', [AdminDzikirController::class, 'index'])->name('admin.dzikir.index');
@@ -56,24 +63,21 @@ Route::get('/dashboard', [QuranController::class, 'index'])
         Route::get('dzikir/{dzikir}', [UserDzikirController::class, 'show'])->name('dzikir.show');
     });
 
+    
+
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/articles', [UserArticleController::class, 'index'])->name('article.index');
         Route::get('/articles/{article}', [UserArticleController::class, 'show'])->name('article.show');
     });
 
-
-    Route::get('/doa', function () {
-        return view('admin.doa.index');
-    })->name('admin.doa.index');
-
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/doa', [UserDoaController::class, 'index'])->name('doa.index');
+    Route::get('/doa/{id}', [UserDoaController::class, 'show'])->name('doa.show');
+});
 
 Route::get('/quran/{nomor}', [QuranController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('user.quran.show');
-
-Route::get('/doa', [DoaHarianController::class, 'index'])->name('doa.index');
-
-Route::get('/doa/{doa_harian}', [DoaHarianController::class, 'show'])->name('doa.show');
 
 Route::get('/jadwal-sholat', [jadwalsholatController::class, 'jadwal'])->name('jadwal.index');
 

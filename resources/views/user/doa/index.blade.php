@@ -1,473 +1,182 @@
-@push('styles')
-    <style>
-        .arabic-text {
-            font-family: 'Scheherazade New', 'Amiri', serif;
-            font-size: 2rem !important;
-            line-height: 2.2 !important;
-            direction: rtl !important;
-            text-align: right !important;
-            color: #0f766e !important;
-            margin-bottom: 1rem !important;
-        }
-
-
-
-        .doa-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 1rem;
-            height: 100%;
-        }
-
-        .doa-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Enhanced search container */
-        .search-container {
-            position: relative;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #059669;
-            font-size: 1.2rem;
-        }
-
-        /* Filter badges */
-        .filter-badge {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 9999px;
-            padding: 0.5rem 1rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .filter-badge:hover {
-            background-color: #047857 !important;
-            color: white !important;
-        }
-
-        /* Hide filtered items */
-        .hidden-doa {
-            display: none;
-        }
-
-        /* Buttons styling */
-        .doa-btn {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .doa-btn:hover {
-            background-color: #f0fdfa;
-        }
-
-        .doa-btn i {
-            margin-right: 0.5rem;
-        }
-
-        /* Typography improvements */
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        /* Copy & Share success notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #10b981;
-            color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            z-index: 50;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Prayer header decoration */
-        .prayer-header {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .prayer-header:before {
-            content: "دعاء";
-            position: absolute;
-            right: -5px;
-            top: -15px;
-            font-size: 4rem;
-            opacity: 0.1;
-            font-family: 'Amiri', serif;
-            color: white;
-        }
-
-        /* Arabic text emphasis */
-        .arabic-container {
-            background-color: #f0fdfa;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            border: 1px solid #d1fae5;
-        }
-
-        .arabic-label {
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            background-color: #10b981;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Latin text styling */
-        .latin-container {
-            background-color: #f8fafc;
-            border-radius: 1rem;
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
-            border: 1px solid #e2e8f0;
-            font-style: italic;
-            color: #334155;
-        }
-
-        /* Button group styling */
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 1rem;
-            background-color: #f0fdfa;
-            border-radius: 0 0 0.75rem 0.75rem;
-        }
-    </style>
-@endpush
-
 @extends('layouts.app')
 
 @section('content')
-    <div class="bg-gradient-to-b from-emerald-50 to-white py-10 min-h-screen">
-        <div class="container mx-auto px-4">
-            <!-- Hero Section with Arabic Decoration -->
-            <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-emerald-800 mb-2"> مجموعة من الأدعية اليومية</h1>
-                <h2 class="text-3xl font-bold text-emerald-700 mb-3">Kumpulan Doa Harian</h2>
-            </div>
-
-            <div class="flex justify-center">
-                <div class="w-full lg:w-10/12">
-                    <div class="bg-white shadow-xl border border-emerald-200 rounded-xl mb-8 overflow-hidden">
-                        <!-- Search Section with Design Improvements -->
-                        <div class="p-6 bg-gradient-to-r from-emerald-600 to-emerald-500 border-b border-emerald-400">
-                            <div class="search-container mb-4">
-                                <i class="bi bi-search search-icon"></i>
-                                <input type="text" id="searchInput"
-                                    placeholder="Cari doa berdasarkan judul, arti, atau bacaan..."
-                                    class="w-full p-4 pl-12 border-2 border-emerald-300 rounded-lg focus:ring-4 focus:ring-emerald-200 focus:border-emerald-500 transition-all text-emerald-800 bg-white" />
-                            </div>
-
-                            <!-- Search Results Info -->
-                            <div class="mt-3 text-sm text-white hidden" id="searchResults">
-                                <span id="resultCount">0</span> doa ditemukan
-                            </div>
-                        </div>
-
-                        <div class="p-6">
-                            @if (!empty($message))
-                                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-sm mb-6"
-                                    role="alert">
-                                    <div class="flex">
-                                        <div class="py-1"><i
-                                                class="bi bi-exclamation-triangle-fill text-red-500 mr-3"></i></div>
-                                        <div>
-                                            <p>{{ $message }}</p>
-                                        </div>
-                                        <button type="button" class="ml-auto"
-                                            onclick="this.parentElement.parentElement.remove()">
-                                            <i class="bi bi-x-lg text-red-500"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            @endif
-
-                            @if (!empty($doas))
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" id="doaContainer">
-                                    @foreach ($doas as $index => $doa)
-                                        <div class="bg-white border border-emerald-200 shadow-md rounded-xl doa-card flex flex-col justify-between overflow-hidden"
-                                            data-title="{{ strtolower($doa['judul']) }}"
-                                            data-translation="{{ strtolower($doa['terjemah']) }}"
-                                            data-category="{{ isset($doa['kategori']) ? strtolower($doa['kategori']) : 'umum' }}">
-
-                                            <div
-                                                class="prayer-header bg-gradient-to-r from-emerald-600 to-emerald-500 p-4 border-b border-emerald-300 flex justify-between items-center">
-                                                <h3 class="card-title">{{ $doa['judul'] }}</h3>
-                                                <span
-                                                    class="bg-white text-emerald-600 font-bold text-sm rounded-full w-8 h-8 flex items-center justify-center shadow-md">{{ $index + 1 }}</span>
-                                            </div>
-
-                                            <div class="p-5 flex-1 bg-white">
-                                                <!-- Arabic Text Section - Enhanced prominence -->
-                                                <div class="arabic-container">
-                                                    <span class="arabic-label">الدعاء</span>
-                                                    <p class="arabic-text">{{ $doa['arab'] }}</p>
-                                                </div>
-
-                                                <!-- Latin Transliteration -->
-                                                <div class="latin-container">
-                                                    <p class="text-emerald-800">{{ $doa['latin'] }}</p>
-                                                </div>
-
-                                                <!-- Translation -->
-                                                <div class="mt-4 pt-4 border-t border-emerald-100">
-                                                    <p class="text-gray-700"><strong
-                                                            class="text-emerald-700">Artinya:</strong>
-                                                        {{ $doa['terjemah'] }}</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="action-buttons">
-                                                <button class="doa-btn text-emerald-600 hover:text-emerald-800"
-                                                    onclick="copyToClipboard('{{ addslashes($doa['arab']) }}', 'arab')">
-                                                    <i class="bi bi-clipboard"></i> Salin Arab
-                                                </button>
-
-                                                <button class="doa-btn text-emerald-600 hover:text-emerald-800"
-                                                    onclick="shareDoa('{{ addslashes($doa['judul']) }}', '{{ addslashes($doa['arab']) }}', '{{ addslashes($doa['terjemah']) }}')">
-                                                    <i class="bi bi-share"></i> Bagikan
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <!-- No Search Results -->
-                                <div id="noResults" class="hidden text-center py-16">
-                                    <svg class="w-16 h-16 mx-auto text-emerald-300" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                    <p class="mt-4 text-lg text-gray-600">Tidak ada doa yang sesuai dengan pencarian Anda
-                                    </p>
-                                    <button id="resetSearch"
-                                        class="mt-3 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">Reset
-                                        Pencarian</button>
-                                </div>
-                            @else
-                                <div class="text-center py-20">
-                                    <svg class="w-20 h-20 mx-auto text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
-                                        </path>
-                                    </svg>
-                                    <p class="mt-6 text-xl text-gray-600">Tidak ada data doa yang tersedia.</p>
-                                    <p class="mt-2 text-gray-500">Silakan coba lagi nanti atau hubungi administrator.</p>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+<div class="bg-gradient-to-b from-emerald-50 to-white min-h-screen">
+    <!-- Header dengan ornamen Islam -->
+    <div class="relative pt-8 pb-4">
+        <div class="absolute inset-0 flex justify-center">
+            <div class="w-full max-w-5xl h-24 bg-contain bg-center bg-no-repeat opacity-10"
+                 style="background-image: url('/images/islamic-ornament.png')">
             </div>
         </div>
-
-        <!-- Toast notification -->
-        <div class="notification" id="notification">
-            <div class="flex items-center">
-                <i class="bi bi-check-circle-fill mr-2"></i>
-                <span id="notificationText">Teks berhasil disalin!</span>
+        <div class="relative z-10">
+            <h1 class="text-4xl font-bold text-emerald-800 mb-2 text-center font-arabic">مجموعة من الأدعية</h1>
+            <h2 class="text-2xl text-emerald-600 text-center">Kumpulan Doa</h2>
+            <div class="flex justify-center mt-4">
+                <div class="h-1 w-36 bg-emerald-600 rounded"></div>
             </div>
         </div>
     </div>
 
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const searchInput = document.getElementById('searchInput');
-                const doaCards = document.querySelectorAll('.doa-card');
-                const noResults = document.getElementById('noResults');
-                const resetSearchBtn = document.getElementById('resetSearch');
-                const searchResults = document.getElementById('searchResults');
-                const resultCount = document.getElementById('resultCount');
-                const filterBadges = document.querySelectorAll('.filter-badge');
-                const notification = document.getElementById('notification');
-                const notificationText = document.getElementById('notificationText');
-                let activeFilter = 'all';
+    <!-- Search bar -->
+    <div class="max-w-md mx-auto px-4 mb-8">
+        <div class="relative">
+            <form action="{{ route('user.doa.index') }}" method="GET" class="w-full">
+                <input type="text"
+                       name="search"
+                       placeholder="Cari doa..."
+                       value="{{ old('search', $search ?? '') }}"
+                       class="w-full pl-4 pr-10 py-3 rounded-full border-2 border-emerald-200 focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">
+                <button type="submit" class="absolute right-3 top-3 text-emerald-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
 
-                // Fungsi pencarian dengan peningkatan
-                function performSearch() {
-                    const searchTerm = searchInput.value.toLowerCase().trim();
-                    let visibleCount = 0;
+    <!-- Kartu-kartu Doa -->
+    <div class="max-w-6xl mx-auto px-6 mb-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @forelse($doas as $doa)
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-emerald-100">
+                    <!-- Header kartu dengan warna gradien -->
+                    <div class="bg-gradient-to-r from-emerald-500 to-emerald-700 p-4">
+                        <h2 class="text-xl font-semibold text-white">{{ $doa->judul }}</h2>
+                    </div>
 
-                    doaCards.forEach(card => {
-                        const title = card.getAttribute('data-title');
-                        const translation = card.getAttribute('data-translation');
-                        const category = card.getAttribute('data-category');
+                    <!-- Konten doa dengan styl Arab -->
+                    <div class="p-6">
+                        @if($doa->arab)
+                            <p class="text-right text-xl mb-3 font-arabic leading-loose text-gray-800">{{ $doa->arab }}</p>
+                            <div class="h-px bg-gray-200 my-3"></div>
+                        @endif
 
-                        // Memeriksa apakah kartu cocok dengan pencarian dan filter
-                        const matchesSearch = searchTerm === '' ||
-                            title.includes(searchTerm) ||
-                            translation.includes(searchTerm);
+                        @if($doa->latin)
+                            <p class="italic text-gray-600 text-sm mb-3">{{ $doa->latin }}</p>
+                            <div class="h-px bg-gray-200 my-3"></div>
+                        @endif
 
-                        const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                        <p class="text-gray-600 mb-4">{{ Str::limit($doa->terjemahan, 100) }}</p>
 
-                        if (matchesSearch && matchesFilter) {
-                            card.classList.remove('hidden-doa');
-                            visibleCount++;
-                        } else {
-                            card.classList.add('hidden-doa');
-                        }
-                    });
+                        <div class="flex items-center justify-between mt-4">
+                            <a href="{{ route('user.doa.show', $doa->id) }}"
+                               class="text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg transition flex items-center">
+                                <span>Baca Selengkapnya</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
 
-                    // Update hasil
-                    resultCount.textContent = visibleCount;
-                    searchResults.classList.toggle('hidden', searchTerm === '' && activeFilter === 'all');
+                            <button class="text-emerald-600 hover:text-emerald-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-3 text-center py-16">
+                    <div class="inline-block p-4 rounded-full bg-emerald-100 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <p class="text-xl text-gray-500">Belum ada doa yang tersedia.</p>
+                    <p class="text-gray-400 mt-2">Silakan kembali nanti untuk melihat konten doa.</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
 
-                    // Tampilkan pesan tidak ada hasil jika perlu
-                    if (visibleCount === 0) {
-                        noResults.classList.remove('hidden');
-                    } else {
-                        noResults.classList.add('hidden');
-                    }
-                }
+    <!-- Navigasi pagination dengan styling khusus - hanya tampil jika ada data -->
+    @if(count($doas) > 0)
+        <div class="flex justify-center mb-12">
+            <nav>
+               <ul class="flex space-x-2 justify-center mt-8">
+    <li>
+        @if ($doas->onFirstPage())
+            <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-300 border border-emerald-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+            </span>
+        @else
+            <a href="{{ $doas->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        @endif
+    </li>
 
-                // Event untuk input pencarian dengan delay untuk performance
-                let searchTimeout;
-                searchInput.addEventListener('input', function() {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(performSearch, 300);
-                });
+       <!-- Navigasi pagination dengan styling khusus - hanya tampil jika ada data -->
+   @if ($doas->hasPages())
+    <ul class="flex flex-wrap justify-center gap-2 mt-10">
+        {{-- Tombol sebelumnya --}}
+        @if ($doas->onFirstPage())
+            <li>
+                <span class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </li>
+        @else
+            <li>
+                <a href="{{ $doas->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </li>
+        @endif
 
-                // Event untuk reset pencarian
-                if (resetSearchBtn) {
-                    resetSearchBtn.addEventListener('click', function() {
-                        searchInput.value = '';
-                        activeFilter = 'all';
+        {{-- Nomor halaman --}}
+        @foreach ($doas->getUrlRange(1, $doas->lastPage()) as $page => $url)
+            <li>
+                <a href="{{ $url }}"
+                   class="w-10 h-10 flex items-center justify-center rounded-full border
+                          {{ $doas->currentPage() == $page ? 'bg-emerald-600 text-white' : 'text-emerald-600 hover:bg-emerald-50' }}">
+                    {{ $page }}
+                </a>
+            </li>
+        @endforeach
 
-                        // Reset tampilan filter
-                        filterBadges.forEach(badge => {
-                            if (badge.getAttribute('data-filter') === 'all') {
-                                badge.classList.remove('bg-emerald-100', 'text-emerald-800');
-                                badge.classList.add('bg-emerald-600', 'text-white');
-                            } else {
-                                badge.classList.remove('bg-emerald-600', 'text-white');
-                                badge.classList.add('bg-emerald-100', 'text-emerald-800');
-                            }
-                        });
+        {{-- Tombol selanjutnya --}}
+        @if ($doas->hasMorePages())
+            <li>
+                <a href="{{ $doas->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </li>
+        @else
+            <li>
+                <span class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </li>
+        @endif
+    </ul>
+@endif
+</ul>
 
-                        performSearch();
-                    });
-                }
-
-                // Event untuk filter kategori
-                filterBadges.forEach(badge => {
-                    badge.addEventListener('click', function() {
-                        const filter = this.getAttribute('data-filter');
-                        activeFilter = filter;
-
-                        // Update tampilan filter
-                        filterBadges.forEach(b => {
-                            if (b === this) {
-                                b.classList.remove('bg-emerald-100', 'text-emerald-800');
-                                b.classList.add('bg-emerald-600', 'text-white');
-                            } else {
-                                b.classList.remove('bg-emerald-600', 'text-white');
-                                b.classList.add('bg-emerald-100', 'text-emerald-800');
-                            }
-                        });
-
-                        performSearch();
-                    });
-                });
-
-                // Fungsi untuk menampilkan notifikasi
-                function showNotification(message) {
-                    notificationText.textContent = message;
-                    notification.classList.add('show');
-
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                    }, 3000);
-                }
-
-                // Fungsi untuk menyalin teks ke clipboard dengan peningkatan
-                window.copyToClipboard = function(text, type) {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = text;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-
-                    // Tampilkan pesan sukses dengan toast notification
-                    let message = 'Teks berhasil disalin!';
-                    if (type === 'arab') {
-                        message = 'Teks Arab berhasil disalin!';
-                    } else if (type === 'latin') {
-                        message = 'Teks Latin berhasil disalin!';
-                    }
-
-                    showNotification(message);
-                };
-
-                // Fungsi untuk berbagi doa dengan peningkatan
-                window.shareDoa = function(title, arabic, translation) {
-                    if (navigator.share) {
-                        navigator.share({
-                                title: 'Doa: ' + title,
-                                text: `${title}\n\n${arabic}\n\n${translation}`,
-                            })
-                            .then(() => {
-                                showNotification('Doa berhasil dibagikan!');
-                            })
-                            .catch(error => {
-                                console.log('Error sharing:', error);
-                                // Fallback jika error
-                                copyToClipboard(`${title}\n\n${arabic}\n\n${translation}`);
-                                showNotification('Teks doa berhasil disalin! Anda dapat membagikannya.');
-                            });
-                    } else {
-                        // Fallback untuk browser yang tidak mendukung Web Share API
-                        copyToClipboard(`${title}\n\n${arabic}\n\n${translation}`);
-                        showNotification('Teks doa berhasil disalin! Anda dapat membagikannya.');
-                    }
-                };
-
-                // Animasi pada scroll untuk cards
-                const animateCards = () => {
-                    doaCards.forEach((card, index) => {
-                        setTimeout(() => {
-                            card.classList.add('animated');
-                        }, 100 * index);
-                    });
-                };
-
-                // Run animation on page load
-                animateCards();
-            });
-        </script>
-    @endpush
+            </nav>
+        </div>
+    @endif
+</div>
 @endsection
+
+@push('styles')
+<style>
+    .font-arabic {
+        font-family: 'Scheherazade New', 'Amiri', serif;
+    }
+</style>
+@endpush

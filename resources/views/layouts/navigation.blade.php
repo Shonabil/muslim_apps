@@ -55,6 +55,15 @@
                                         </svg>
                                         {{ __('Kelola User') }}
                                     </x-dropdown-link>
+                                   <x-dropdown-link :href="route('admin.doa.index')" class="flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600"
+        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9.5 11V5a1.5 1.5 0 00-3 0v6M17.5 11V5a1.5 1.5 0 10-3 0v6M4 21v-2a4 4 0 014-4h1m6 0h1a4 4 0 014 4v2M9 15v2a3 3 0 006 0v-2" />
+    </svg>
+    {{ __('Kelola Doa') }}
+</x-dropdown-link>
+
 
                                     <x-dropdown-link :href="route('admin.article.index')" class="flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600"
@@ -87,7 +96,7 @@
                                 Al Qur'an
                             </a>
 
-                            <a href="{{ route('doa.index') }}"
+                            <a href="{{ route('user.doa.index') }}"
                                 class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -264,7 +273,7 @@
                         {{ __('Al Qur\'an') }}
                     </x-responsive-nav-link>
 
-                    <x-responsive-nav-link :href="route('doa.index')" :active="request()->routeIs('doa.index')" class="flex items-center">
+                    <x-responsive-nav-link :href="route('user.doa.index')" :active="request()->routeIs('user.doa.index')" class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

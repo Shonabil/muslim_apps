@@ -10,7 +10,7 @@ class DzikirController extends Controller
 {
     public function index()
     {
-        $dzikirs = Dzikir::paginate(10);  // Ini akan menghasilkan hasil paginasi
+        $dzikirs = Dzikir::paginate(2);  // Ini akan menghasilkan hasil paginasi
 
         return view('admin.dzikir.index', compact('dzikirs'));
     }
@@ -45,7 +45,6 @@ class DzikirController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|in:pagi,petang,setelah_sholat',
             'arabic_text' => 'nullable|string',
             'latin_translation' => 'nullable|string',
             'translation' => 'nullable|string',

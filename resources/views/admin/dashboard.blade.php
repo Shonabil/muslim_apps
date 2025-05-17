@@ -9,20 +9,32 @@
                 <h1 class="text-2xl font-bold mb-4">Admin Panel</h1>
                 <p class="mb-6">Halo, {{ auth()->user()->name }}! Ini adalah halaman dashboard admin.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-blue-100 p-4 rounded-lg shadow">
-                        <h2 class="text-lg font-semibold text-blue-800">Total Pengguna</h2>
-                        <p class="text-3xl font-bold text-blue-900 mt-2">{{ $userCount }}</p>
-                    </div>
-                    <div class="bg-green-100 p-4 rounded-lg shadow">
-                        <h2 class="text-lg font-semibold text-green-800">Total Artikel</h2>
-                        <p class="text-3xl font-bold text-green-900 mt-2">{{ $articleCount }}</p>
-                    </div>
-                    <div class="bg-purple-100 p-4 rounded-lg shadow">
-                        <h2 class="text-lg font-semibold text-purple-800">Total Dzikir</h2>
-                        <p class="text-3xl font-bold text-purple-900 mt-2">{{ $dzikirCount }}</p>
-                    </div>
-                </div>
+               <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <!-- Pengguna -->
+    <div class="bg-emerald-100 p-4 rounded-lg shadow">
+        <h2 class="text-lg font-semibold text-emerald-800">Total Pengguna</h2>
+        <p class="text-3xl font-bold text-emerald-900 mt-2">{{ $userCount }}</p>
+    </div>
+
+    <!-- Artikel -->
+    <div class="bg-yellow-100 p-4 rounded-lg shadow">
+        <h2 class="text-lg font-semibold text-yellow-800">Total Artikel</h2>
+        <p class="text-3xl font-bold text-yellow-900 mt-2">{{ $articleCount }}</p>
+    </div>
+
+    <!-- Dzikir -->
+    <div class="bg-purple-100 p-4 rounded-lg shadow">
+        <h2 class="text-lg font-semibold text-purple-800">Total Doa</h2>
+        <p class="text-3xl font-bold text-purple-900 mt-2">{{ $doaCount }}</p>
+    </div>
+
+    <!-- Doa -->
+    <div class="bg-rose-100 p-4 rounded-lg shadow">
+        <h2 class="text-lg font-semibold text-rose-800">Total Dzikir</h2>
+        <p class="text-3xl font-bold text-rose-900 mt-2">{{ $dzikirCount }}</p>
+    </div>
+</div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     <!-- Doughnut Chart -->
                     <div class="bg-white p-6 rounded-lg shadow">
@@ -59,12 +71,13 @@
         const dashboardDoughnutChart = new Chart(doughnutCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Pengguna', 'Artikel', 'Dzikir'],
+                labels: ['Pengguna', 'Artikel', 'Dzikir','Doa'],
                 datasets: [{
-                    data: [{{ $userCount }}, {{ $articleCount }}, {{ $dzikirCount }}],
+                    data: [{{ $userCount }}, {{ $articleCount }}, {{ $dzikirCount }}, {{ $doaCount }}],
                     backgroundColor: [
-                        'rgba(59, 130, 246, 0.7)',
-                        'rgba(34, 197, 94, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(251, 191, 36, 0.7)',
+                        'rgba(239, 68, 68, 0.7)',
                         'rgba(168, 85, 247, 0.7)'
                     ],
                     borderColor: '#fff',
