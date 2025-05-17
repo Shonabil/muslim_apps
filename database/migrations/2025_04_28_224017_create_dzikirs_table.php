@@ -15,6 +15,7 @@ class CreateDzikirsTable extends Migration
             $table->text('arabic_text')->nullable();
             $table->text('latin_translation')->nullable();
             $table->text('translation')->nullable();
+            $table->text('fadhilah')->nullable();
             $table->timestamps();
         });
     }
