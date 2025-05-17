@@ -42,9 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4">
-                            <a href="{{ route('users.index') ?? '#' }}" class="text-sm font-medium text-emerald-600 hover:text-emerald-800">Lihat Semua Pengguna →</a>
-                        </div>
+
                     </div>
                 </div>
 
@@ -65,9 +63,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4">
-                            <a href="{{ route('articles.index') ?? '#' }}" class="text-sm font-medium text-yellow-600 hover:text-yellow-800">Kelola Artikel →</a>
-                        </div>
+
                     </div>
                 </div>
 
@@ -88,9 +84,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4">
-                            <a href="{{ route('dzikir.index') ?? '#' }}" class="text-sm font-medium text-rose-600 hover:text-rose-800">Kelola Dzikir →</a>
-                        </div>
+
                     </div>
                 </div>
 
@@ -111,9 +105,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4">
-                            <a href="{{ route('doa.index') ?? '#' }}" class="text-sm font-medium text-purple-600 hover:text-purple-800">Kelola Doa →</a>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
