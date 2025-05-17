@@ -28,7 +28,6 @@ class DzikirController extends Controller
             'arabic_text' => 'nullable|string',
             'latin_translation' => 'nullable|string',
             'translation' => 'nullable|string',
-               'fadhilah' => 'nullable|string',
         ]);
 
         Dzikir::create($request->all());
@@ -49,7 +48,6 @@ class DzikirController extends Controller
             'arabic_text' => 'nullable|string',
             'latin_translation' => 'nullable|string',
             'translation' => 'nullable|string',
-               'fadhilah' => 'nullable|string',
         ]);
 
         $dzikir->update($request->all());
