@@ -15,6 +15,7 @@ class Dzikir extends Model
         'arabic_text',
         'latin_translation',
         'translation',
+        'fadhilah',
     ];
 
     // Kita bisa menambahkan scope untuk filter berdasarkan kategori

@@ -43,6 +43,12 @@
             <label for="translation" class="block font-semibold text-gray-700 mb-1">Terjemahan</label>
             <textarea name="translation" id="translation" rows="2" class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
         </div>
+        <div class="mb-4">
+    <label for="fadhilah" class="block text-sm font-medium text-gray-700">Fadhilah</label>
+    <textarea name="fadhilah" id="fadhilah" rows="4"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">{{ old('fadhilah', $dzikir->fadhilah ?? '') }}</textarea>
+</div>
+
 
         <div class="flex justify-between items-center">
             <a href="{{ route('admin.dzikir.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center">
