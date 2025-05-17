@@ -10,7 +10,7 @@ class DzikirController extends Controller
 {
     public function index()
     {
-        $dzikirs = Dzikir::paginate(2);  // Ini akan menghasilkan hasil paginasi
+        $dzikirs = Dzikir::paginate(10);  
 
         return view('admin.dzikir.index', compact('dzikirs'));
     }
