@@ -15,9 +15,60 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-4 sm:flex sm:items-center sm:ml-6">
                     @auth
+                        <!-- User Navigation - Always visible for all users including admins -->
+                        <a href="{{ route('dashboard') }}"
+                            class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                            Al Qur'an
+                        </a>
+
+                        <a href="{{ route('user.doa.index') }}"
+                            class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            Doa Harian
+                        </a>
+
+                        <a href="{{ route('user.dzikir.index') }}"
+                            class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Dzikir
+                        </a>
+
+                        <a href="{{ route('user.article.index') }}"
+                            class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
+                            Artikel Islam
+                        </a>
+
+                        <a href="{{ route('jadwal.index') }}"
+                            class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Jadwal Sholat
+                        </a>
+
+                        <!-- Admin Panel Dropdown - Only visible for admins -->
                         @if (Auth::user()->role === 'admin')
-                            <!-- Admin Navigation - Visible on medium screens and up -->
-                            <x-dropdown align="left" width="56">
+                            <x-dropdown align="left" width="56" class="ml-4">
                                 <x-slot name="trigger">
                                     <button
                                         class="flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-700 hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-700 transition ease-in-out duration-150">
@@ -55,15 +106,15 @@
                                         </svg>
                                         {{ __('Kelola User') }}
                                     </x-dropdown-link>
-                                   <x-dropdown-link :href="route('admin.doa.index')" class="flex items-center">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600"
-        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9.5 11V5a1.5 1.5 0 00-3 0v6M17.5 11V5a1.5 1.5 0 10-3 0v6M4 21v-2a4 4 0 014-4h1m6 0h1a4 4 0 014 4v2M9 15v2a3 3 0 006 0v-2" />
-    </svg>
-    {{ __('Kelola Doa') }}
-</x-dropdown-link>
 
+                                   <x-dropdown-link :href="route('admin.doa.index')" class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9.5 11V5a1.5 1.5 0 00-3 0v6M17.5 11V5a1.5 1.5 0 10-3 0v6M4 21v-2a4 4 0 014-4h1m6 0h1a4 4 0 014 4v2M9 15v2a3 3 0 006 0v-2" />
+                                        </svg>
+                                        {{ __('Kelola Doa') }}
+                                    </x-dropdown-link>
 
                                     <x-dropdown-link :href="route('admin.article.index')" class="flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600"
@@ -84,57 +135,6 @@
                                     </x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
-                        @elseif (Auth::user()->role === 'user')
-                            <!-- User Menu -->
-                            <a href="{{ route('dashboard') }}"
-                                class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                                Al Qur'an
-                            </a>
-
-                            <a href="{{ route('user.doa.index') }}"
-                                class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                </svg>
-                                Doa Harian
-                            </a>
-
-                            <a href="{{ route('user.dzikir.index') }}"
-                                class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Dzikir
-                            </a>
-
-                            <a href="{{ route('user.article.index') }}"
-                                class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                                </svg>
-                                Artikel Islam
-                            </a>
-
-                            <a href="{{ route('jadwal.index') }}"
-                                class="text-white hover:text-emerald-200 px-3 py-2 rounded-md text-sm font-medium flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                Jadwal Sholat
-                            </a>
                         @endif
                     @endauth
                 </div>
@@ -221,9 +221,55 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @auth
+                <!-- User Mobile Menu - Always available for all users -->
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    {{ __('Al Qur\'an') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('user.doa.index')" :active="request()->routeIs('user.doa.index')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    {{ __('Doa Harian') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('user.dzikir.index')" :active="request()->routeIs('user.dzikir.index')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ __('Dzikir') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('user.article.index')" :active="request()->routeIs('user.article.index')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    {{ __('Artikel Islam') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('jadwal.index')" :active="request()->routeIs('jadwal.index')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {{ __('Jadwal Sholat') }}
+                </x-responsive-nav-link>
+
+                <!-- Admin Mobile Menu - Only visible for admins -->
                 @if (Auth::user()->role === 'admin')
-                    <!-- Admin Mobile Menu - Grouped with distinguishing header -->
-                    <div class="px-3 py-1 text-sm text-emerald-200 bg-emerald-800 font-medium">
+                    <div class="px-3 py-1 text-sm text-emerald-200 bg-emerald-800 font-medium mt-3">
                         {{ __('Admin Panel') }}
                     </div>
 
@@ -245,6 +291,15 @@
                         {{ __('Kelola User') }}
                     </x-responsive-nav-link>
 
+                    <x-responsive-nav-link :href="route('admin.doa.index')" :active="request()->routeIs('admin.doa.index')" class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.5 11V5a1.5 1.5 0 00-3 0v6M17.5 11V5a1.5 1.5 0 10-3 0v6M4 21v-2a4 4 0 014-4h1m6 0h1a4 4 0 014 4v2M9 15v2a3 3 0 006 0v-2" />
+                        </svg>
+                        {{ __('Kelola Doa') }}
+                    </x-responsive-nav-link>
+
                     <x-responsive-nav-link :href="route('admin.article.index')" :active="request()->routeIs('admin.article.index')" class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -262,57 +317,11 @@
                         </svg>
                         {{ __('Kelola Dzikir') }}
                     </x-responsive-nav-link>
-                @elseif (Auth::user()->role === 'user')
-                    <!-- User Mobile Menu -->
-                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                        {{ __('Al Qur\'an') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('user.doa.index')" :active="request()->routeIs('user.doa.index')" class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                        {{ __('Doa Harian') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('user.dzikir.index')" :active="request()->routeIs('user.dzikir.index')" class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ __('Dzikir') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('user.article.index')" :active="request()->routeIs('user.article.index')" class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                        </svg>
-                        {{ __('Artikel Islam') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('jadwal.index')" :active="request()->routeIs('jadwal.index')" class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        {{ __('Jadwal Sholat') }}
-                    </x-responsive-nav-link>
                 @endif
             @endauth
         </div>
 
-        <!-- Responsive Settings Options -->
+      <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-emerald-700">
             <div class="px-4">
                 <div class="font-medium text-base text-white">{{ Auth::user()->name }}</div>
@@ -320,34 +329,32 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')"
-                    class="flex items-center px-4 py-2 text-[#2a9ba5] hover:bg-[#e6f7f8] hover:text-[#218e97] rounded-lg transition duration-200 ease-in-out">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-[#31B7C2]" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    <span class="font-medium">Profile</span>
-                </x-responsive-nav-link>
-            </div>
-
-            <!-- Authentication -->
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-
-                <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                        this.closest('form').submit();"
-                    class="flex items-center">
+                <x-responsive-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')" class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    {{ __('Log Out') }}
+                    {{ __('Profile') }}
                 </x-responsive-nav-link>
-            </form>
+
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-responsive-nav-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                        this.closest('form').submit();"
+                        class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
+            </div>
         </div>
-    </div>
     </div>
 </nav>

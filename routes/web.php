@@ -4,13 +4,14 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuranController;
 use App\Http\Controllers\jadwalsholatController;
-use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\DoaController;
 use App\Http\Controllers\Admin\DzikirController as AdminDzikirController;
+use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\User\DoaController as UserDoaController;
 use App\Http\Controllers\User\DzikirController as UserDzikirController;
+use App\Http\Controllers\User\BookmarkController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -63,7 +64,7 @@ Route::prefix(('admin'))->group(function () {
         Route::get('dzikir/{dzikir}', [UserDzikirController::class, 'show'])->name('dzikir.show');
     });
 
-    
+
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/articles', [UserArticleController::class, 'index'])->name('article.index');
@@ -80,6 +81,13 @@ Route::get('/quran/{nomor}', [QuranController::class, 'show'])
     ->name('user.quran.show');
 
 Route::get('/jadwal-sholat', [jadwalsholatController::class, 'jadwal'])->name('jadwal.index');
+
+
+
+Route::middleware('user')->group(function () {
+    Route::post('/bookmark/toggle', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
+    Route::get('/bookmark/list', [BookmarkController::class, 'list'])->name('bookmark.list');
+});
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

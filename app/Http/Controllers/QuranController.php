@@ -18,23 +18,13 @@ class QuranController extends Controller
     }
 
     // Tampilkan detail surah berdasarkan nomor
-    public function show($nomor)
-    {
-        $response = Http::get("https://quran-api.santrikoding.com/api/surah/{$nomor}");
-        $surah = $response->json();
+   public function show($nomor)
+{
+    $response = Http::get("https://quran-api.santrikoding.com/api/surah/{$nomor}");
+    $surah = $response->json();
+    $ayat = $surah['ayat']; // ambil ayatnya saja
 
-        return view('user.quran.show', compact('surah'));
-    }
+    return view('user.quran.show', compact('surah', 'ayat'));
+}
 
-    public function bookmark(Request $request)
-    {
-        $response = Http::post('https://quran-api.santrikoding.com/api/bookmark', [
-            'user_id' => Auth::id(),
-            'surah_id' => $request->input('surah_id'),
-            'ayat_number' => $request->input('ayat_number'),
-            'surah_name' => $request->input('surah_name'),
-        ]);
-
-        return response()->json($response->json());
-    }
 }

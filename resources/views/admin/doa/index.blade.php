@@ -10,18 +10,6 @@
         </div>
 
          <div class="flex flex-col sm:flex-row gap-4">
-            <!-- Ke User -->
-            <a href="{{ route('user.doa.index') }}"
-               class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg flex items-center transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                          d="M9.707 4.293a1 1 0 010 1.414L6.414 9H16a1 1 0 110 2H6.414l3.293 3.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 0z"
-                          clip-rule="evenodd" />
-                </svg>
-                <span class="font-medium">Ke User</span>
-            </a>
-
-            <!-- Tambah Dzikir -->
             <a href="{{ route('admin.doa.create') }}"
                class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg flex items-center transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-1">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
