@@ -18,7 +18,7 @@ class AdminDashboardController extends Controller
         $articleCount = Article::count();
         $dzikirCount = Dzikir::count();
         $doaCount = Doa::count();
-        $loginLogs = LoginLog::with('user')->latest()->take(4)->get();
+        $loginLogs = LoginLog::with('user')->latest()->take(3)->get();
 
         $startOfThisWeek = Carbon::now()->startOfWeek();
         $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();

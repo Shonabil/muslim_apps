@@ -163,7 +163,8 @@
                 <!-- Kutipan Islami Card -->
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <h2 class="text-xl font-semibold text-gray-700 mb-4">Kutipan Islami</h2>
-                    <div class="bg-green-50 border border-green-100 rounded-lg p-4 shadow-sm mb-4">
+
+                    <div id="quote-box" class="bg-green-50 border border-green-100 rounded-lg p-4 shadow-sm mb-4">
                         <div class="flex items-center justify-center mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -171,10 +172,8 @@
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <blockquote class="text-md italic text-green-800 text-center">
-                            "Barangsiapa bertakwa kepada Allah niscaya Dia akan mengadakan baginya jalan keluar."
-                            <footer class="text-sm text-green-600 mt-2">— QS. At-Talaq: 2</footer>
-                        </blockquote>
+                        <blockquote id="quote-text" class="text-md italic text-green-800 text-center"></blockquote>
+                        <footer id="quote-source" class="text-sm text-green-600 mt-2 text-center"></footer>
                     </div>
                     <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 shadow-sm">
                         <div class="flex items-center justify-center mb-2">
@@ -216,19 +215,22 @@
             <!-- Recent Activity & Quick Actions -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                 <!-- Recent Activity -->
-                <div class="bg-white rounded-xl shadow-md p-6 col-span-1 lg:col-span-2">
-                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Aktivitas Terbaru</h2>
-                    <div class="space-y-4">
-                        @foreach ($loginLogs as $log)
-                            <div class="border-l-4 border-purple-500 pl-4 py-1">
-                                <p class="text-gray-700">
-                                    <span class="font-medium">{{ $log->user->name }}</span> login ke sistem
-                                </p>
-                                <p class="text-gray-500 text-sm">{{ $log->logged_in_at->diffForHumans() }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
+<div class="bg-white rounded-xl shadow-md p-6 col-span-1 lg:col-span-2">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4">Aktivitas Terbaru</h2>
+
+    <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+        @foreach ($loginLogs as $log)
+            <div class="border-l-4 border-purple-500 pl-4 py-1">
+                <p class="text-gray-700">
+                    <span class="font-medium">{{ $log->user->name }}</span> login ke sistem
+                </p>
+                <p class="text-gray-500 text-sm">{{ $log->logged_in_at->diffForHumans() }}</p>
+            </div>
+        @endforeach
+    </div>
+</div>
+
+
 
                 <!-- Quick Actions -->
                 <div class="bg-white rounded-xl shadow-md p-6">
@@ -336,6 +338,48 @@
                     }
                 }
             });
+
+            // kutipan islami
+              const quotes = [
+        {
+            text: "Barangsiapa bertakwa kepada Allah niscaya Dia akan mengadakan baginya jalan keluar.",
+            source: "— QS. At-Talaq: 2"
+        },
+        {
+            text: "Sesungguhnya setelah kesulitan ada kemudahan.",
+            source: "— QS. Al-Insyirah: 6"
+        },
+        {
+            text: "Jangan bersedih, sesungguhnya Allah bersama kita.",
+            source: "— QS. At-Taubah: 40"
+        },
+        {
+            text: "Tak ada yang lebih menenangkan selain mengingat Allah.",
+            source: "— QS. Ar-Ra’d: 28"
+        },
+        {
+            text: "Doa adalah senjata seorang mukmin.",
+            source: "— HR. Al-Hakim"
+        }
+    ];
+
+    let currentIndex = 0;
+    const quoteText = document.getElementById('quote-text');
+    const quoteSource = document.getElementById('quote-source');
+
+    function showQuote(index) {
+        quoteText.textContent = `"${quotes[index].text}"`;
+        quoteSource.textContent = quotes[index].source;
+    }
+
+    // First load
+    showQuote(currentIndex);
+
+    // Auto update every 3 seconds
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % quotes.length;
+        showQuote(currentIndex);
+    }, 3000);
 
             // Toggle Chart Type
             document.querySelectorAll('.chart-type-btn').forEach(button => {
