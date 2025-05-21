@@ -200,42 +200,55 @@
 
         <!-- Daftar Ayat -->
         <div class="space-y-6" id="ayat-container">
-            @foreach ($ayat as $a)
-                <div class="bg-white shadow-md rounded-xl p-5 relative group hover:border-emerald-300 transition border border-gray-100"
-                    id="ayat-{{ $a['nomor'] }}">
-                    <div class="flex justify-between items-start mb-4">
-                        <div
-                            class="text-sm bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-lg font-medium flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                            </svg>
-                            Ayat {{ $a['nomor'] }}
-                        </div>
+           @foreach ($ayat as $a)
+    <div class="bg-white shadow-md rounded-xl p-5 relative group hover:border-emerald-300 transition border border-gray-100"
+        id="ayat-{{ $a['nomor'] }}">
+        <div class="flex justify-between items-start mb-4">
+            <div
+                class="text-sm bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-lg font-medium flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                </svg>
+                Ayat {{ $a['nomor'] }}
+            </div>
 
-                        {{-- bookamrk button --}}
-                        <div class="flex space-x-1">
-                            <button
-                                class="bookmark-btn text-emerald-600 hover:text-emerald-800 p-2 rounded-full hover:bg-emerald-100 transition"
-                                data-surah="{{ $surah['nomor'] }}" data-ayat="{{ $a['nomor'] }}"
-                                data-surat-name="{{ $surah['nama_latin'] }}" title="Bookmark">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                                </svg>
-                            </button>
+            {{-- bookmark button --}}
+         <div class="flex space-x-1">
+    <button
+        class="bookmark-btn p-2 rounded-full transition
+            {{ $a['isBookmarked'] ? 'text-yellow-500 bg-yellow-100' : 'text-emerald-600 hover:text-emerald-800 hover:bg-emerald-100' }}"
+        data-surah="{{ $surah['nomor'] }}"
+        data-ayat="{{ $a['nomor'] }}"
+        data-surat-name="{{ $surah['nama_latin'] }}"
+        data-bookmarked="{{ $a['isBookmarked'] ? 'true' : 'false' }}"
+        title="{{ $a['isBookmarked'] ? 'Ayat ini sudah ditandai' : 'Bookmark ayat ini' }}"
+    >
+        @if ($a['isBookmarked'])
+            {{-- Ikon sudah dibookmark --}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 3a2 2 0 00-2 2v12l7-3.5L17 17V5a2 2 0 00-2-2H5z" />
+            </svg>
+        @else
+            {{-- Ikon belum dibookmark --}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+        @endif
+    </button>
+</div>
 
-                        </div>
-                    </div>
-                    <div class="text-right text-3xl font-arab leading-loose my-5 text-gray-800">{{ $a['ar'] }}</div>
-                    <div class="terjemahan-container border-t pt-4 mt-4">
-                        <div class="text-gray-700 leading-relaxed">{{ $a['idn'] }}</div>
-                    </div>
+        </div>
+        <div class="text-right text-3xl font-arab leading-loose my-5 text-gray-800">{{ $a['ar'] }}</div>
+        <div class="terjemahan-container border-t pt-4 mt-4">
+            <div class="text-gray-700 leading-relaxed">{{ $a['idn'] }}</div>
+        </div>
+    </div>
+@endforeach
 
-                </div>
-            @endforeach
         </div>
 
         <!-- Back to Top Button -->
@@ -429,81 +442,70 @@
         });
 
         // Bookmark Functionality - hanya satu ayat boleh dibookmark
-        document.querySelectorAll('.bookmark-btn').forEach(button => {
-            // Cek status bookmark awal
-            if (button.dataset.bookmarked === 'true') {
-                button.classList.add('text-yellow-500');
-            }
+     document.querySelectorAll('.bookmark-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const surah = this.dataset.surah;
+        const ayat = this.dataset.ayat;
+        const suratName = this.dataset.suratName;
+        const isBookmarked = this.dataset.bookmarked === 'true';
 
-            button.addEventListener('click', function() {
-                const surah = this.dataset.surah;
-                const ayat = this.dataset.ayat;
-                const suratName = this.dataset.suratName;
-                const isCurrentlyBookmarked = this.dataset.bookmarked === 'true';
+        const url = "{{ route('quran.bookmark') }}";
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        };
+        const body = JSON.stringify({
+            surah_number: surah,
+            ayat_number: ayat,
+            action: isBookmarked ? 'remove' : 'add'
+        });
 
-                // Jika sudah dibookmark, maka hapus
-                if (isCurrentlyBookmarked) {
-                    fetch("{{ route('quran.bookmark') }}", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                surah_number: surah,
-                                ayat_number: ayat,
-                                action: 'remove'
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.status) {
-                                this.classList.remove('text-yellow-500');
-                                this.dataset.bookmarked = 'false';
-                                showNotification('success', 'Bookmark Dihapus',
-                                    `Surah ${suratName} ayat ${ayat} berhasil dihapus dari bookmark`
-                                );
-                            } else {
-                                showNotification('error', 'Terjadi Kesalahan',
-                                    'Gagal menghapus bookmark');
-                            }
-                        });
+        fetch(url, { method: 'POST', headers, body })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.status) {
+                    showNotification('error', 'Terjadi Kesalahan', 'Gagal memproses bookmark');
+                    return;
+                }
+
+                // Reset semua button (hanya 1 bookmark aktif)
+                document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                    btn.classList.remove('text-yellow-500', 'bg-yellow-100');
+                    btn.classList.add('text-emerald-600', 'hover:text-emerald-800', 'hover:bg-emerald-100');
+                    btn.dataset.bookmarked = 'false';
+                    btn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                    `;
+                });
+
+                if (!isBookmarked) {
+                    // Update tombol yang diklik jadi bookmarked
+                    this.classList.remove('text-emerald-600', 'hover:text-emerald-800', 'hover:bg-emerald-100');
+                    this.classList.add('text-yellow-500', 'bg-yellow-100');
+                    this.dataset.bookmarked = 'true';
+                    this.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path d="M5 3a2 2 0 00-2 2v12l7-3.5L17 17V5a2 2 0 00-2-2H5z" />
+                        </svg>
+                    `;
+
+                    showNotification('success', 'Bookmark Ditambahkan',
+                        `Surah ${suratName} ayat ${ayat} berhasil ditambahkan ke bookmark`
+                    );
                 } else {
-                    // Kalau user klik ayat lain, hapus semua bookmark dulu (dari UI)
-                    document.querySelectorAll('.bookmark-btn').forEach(btn => {
-                        btn.classList.remove('text-yellow-500');
-                        btn.dataset.bookmarked = 'false';
-                    });
-
-                    // Tambahkan bookmark baru
-                    fetch("{{ route('quran.bookmark') }}", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                surah_number: surah,
-                                ayat_number: ayat,
-                                action: 'add'
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.status) {
-                                this.classList.add('text-yellow-500');
-                                this.dataset.bookmarked = 'true';
-                                showNotification('success', 'Bookmark Ditambahkan',
-                                    `Surah ${suratName} ayat ${ayat} berhasil ditambahkan ke bookmark`
-                                );
-                            } else {
-                                showNotification('error', 'Terjadi Kesalahan',
-                                    'Gagal menambahkan bookmark');
-                            }
-                        });
+                    showNotification('success', 'Bookmark Dihapus',
+                        `Surah ${suratName} ayat ${ayat} berhasil dihapus dari bookmark`
+                    );
                 }
             });
-        });
+    });
+});
+
 
         document.getElementById('btnViewBookmark').addEventListener('click', () => {
             const bookmarked = document.querySelector('.bookmark-btn.text-yellow-500');

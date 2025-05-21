@@ -31,14 +31,14 @@ class QuranController extends Controller
             $a['audio'] = $a['audio'] ?? null; // jaga-jaga kalau gak ada
         }
         // Ambil bookmark aktif milik user (hanya satu)
-$bookmark = Bookmark::where('user_id', Auth::id())->first();
+        $bookmark = Bookmark::where('user_id', Auth::id())->first();
 
-// Tandai ayat yang sesuai
-foreach ($ayat as &$a) {
-    $a['isBookmarked'] = $bookmark &&
-        $bookmark->surah_number == $surah['nomor'] &&
-        $bookmark->ayat_number == $a['nomor'];
-}
+        // Tandai ayat yang sesuai
+        foreach ($ayat as &$a) {
+            $a['isBookmarked'] = $bookmark &&
+                $bookmark->surah_number == $surah['nomor'] &&
+                $bookmark->ayat_number == $a['nomor'];
+        }
 
 
         // Cek apakah hari ini Jumat
@@ -80,14 +80,19 @@ foreach ($ayat as &$a) {
     }
 
 
-    public function getBookmarks()
-    {
-        $userId = Auth::id();
-        $bookmarks = Bookmark::where('user_id', $userId)->get();
+   public function getBookmark()
+{
+    $bookmark = Bookmark::where('user_id', Auth::id())->latest()->first();
 
-        return response()->json([
-            'status' => true,
-            'data' => $bookmarks
-        ]);
+    if (!$bookmark) {
+        return response()->json(['status' => 'empty']);
     }
+
+    return response()->json([
+        'status' => 'ok',
+        'surah' => $bookmark->surah_number,
+        'ayat' => $bookmark->ayat_number
+    ]);
+}
+
 }

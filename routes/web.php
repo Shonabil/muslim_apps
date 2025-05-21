@@ -85,15 +85,16 @@ Route::get('/quran/{nomor}', [QuranController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('user.quran.show');
 
-// Route untuk menyimpan bookmark (akses setelah login)
-Route::post('/quran/bookmark', [QuranController::class, 'bookmark'])
-    ->middleware(['auth', 'verified'])
-    ->name('quran.bookmark');
-
-// Route opsional: hapus bookmark
-Route::delete('/quran/bookmark', [QuranController::class, 'unbookmark'])
-    ->middleware(['auth', 'verified'])
-    ->name('quran.unbookmark');
+// Bookmark routes
+Route::middleware(['auth', 'verified'])->group(function() {
+    // POST route for toggling bookmark
+    Route::post('/quran/bookmark', [QuranController::class, 'bookmark'])
+        ->name('quran.bookmark');
+    
+    // GET route for fetching current bookmark
+    Route::get('/quran/bookmark', [QuranController::class, 'getBookmark'])
+        ->name('quran.bookmark.get');
+});
 
 Route::get('/jadwal-sholat', [jadwalsholatController::class, 'jadwal'])->name('jadwal.index');
 
