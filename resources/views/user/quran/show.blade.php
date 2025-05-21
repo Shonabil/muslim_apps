@@ -53,27 +53,64 @@
             </div>
 
             <!-- Navigasi surat -->
-            <div class="flex space-x-2 mt-4 md:mt-0">
-                @if($surah['nomor'] > 1)
-                <a href="{{ route('user.quran.show', $surah['nomor'] - 1) }}"
-                   class="bg-white border border-emerald-500 text-emerald-700 px-4 py-2 rounded-lg hover:bg-emerald-50 transition flex items-center shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Surat Sebelumnya
-                </a>
-                @endif
-
-                @if($surah['nomor'] < 114)
-                <a href="{{ route('user.quran.show', $surah['nomor'] + 1) }}"
-                   class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition flex items-center shadow-sm">
-                    Surat Selanjutnya
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </a>
-                @endif
+           <div class="flex flex-col gap-4 mt-6">
+    <!-- Tombol Dashboard -->
+    <a href="{{ url('dashboard') }}"
+       class="group flex items-center justify-center px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg">
+        <div class="flex items-center">
+            <div class="flex items-center justify-center h-8 w-8 rounded-lg bg-white text-emerald-600 mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
             </div>
+            <span class="text-white font-medium">Kembali ke Dashboard</span>
+        </div>
+    </a>
+
+    <!-- Navigasi Surat -->
+    <div class="flex flex-col sm:flex-row justify-between gap-4">
+        <!-- Tombol Surat Sebelumnya -->
+        @if($surah['nomor'] > 1)
+        <a href="{{ route('user.quran.show', $surah['nomor'] - 1) }}"
+           class="group flex items-center justify-center px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-50 to-white border border-emerald-200 hover:from-emerald-100 hover:to-emerald-50 transition-all duration-300 shadow-md hover:shadow-lg">
+            <div class="flex items-center">
+                <div class="flex items-center justify-center h-9 w-9 rounded-lg bg-emerald-500 text-white mr-3 group-hover:bg-emerald-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm text-emerald-600 font-medium">Surat Sebelumnya</p>
+                    <p class="text-xs text-gray-500">Surah {{ $surah['nomor'] - 1 }}</p>
+                </div>
+            </div>
+        </a>
+        @else
+        <div class="invisible sm:visible sm:flex-1"></div>
+        @endif
+
+
+        <!-- Tombol Surat Selanjutnya -->
+        @if($surah['nomor'] < 114)
+        <a href="{{ route('user.quran.show', $surah['nomor'] + 1) }}"
+           class="group flex items-center justify-center px-5 py-3 rounded-xl bg-gradient-to-r from-white to-emerald-50 border border-emerald-200 hover:from-emerald-50 hover:to-emerald-100 transition-all duration-300 shadow-md hover:shadow-lg">
+            <div class="flex items-center">
+                <div>
+                    <p class="text-sm text-emerald-600 font-medium text-right">Surat Selanjutnya</p>
+                    <p class="text-xs text-gray-500 text-right">Surah {{ $surah['nomor'] + 1 }}</p>
+                </div>
+                <div class="flex items-center justify-center h-9 w-9 rounded-lg bg-emerald-500 text-white ml-3 group-hover:bg-emerald-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+        @else
+        <div class="invisible sm:visible sm:flex-1"></div>
+        @endif
+    </div>
+</div>
         </div>
 
         <div class="mt-6 text-gray-600 mb-3 bg-gray-50 p-4 rounded-lg border-l-4 border-emerald-300 text-sm leading-relaxed">
@@ -108,18 +145,25 @@
                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                     <span class="ml-3 text-sm font-medium text-gray-700">Tampilkan Terjemahan</span>
                 </label>
-
-              
             </div>
 
-            <div class="flex items-center">
-                <button id="jumpToAyat" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg hover:bg-emerald-200 transition flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    Cari Ayat
-                </button>
-            </div>
+
+            {{-- search dan bookmark --}}
+            <div class="flex items-center space-x-2">
+    <button id="jumpToAyat" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg hover:bg-emerald-200 transition flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        Cari Ayat
+    </button>
+
+    <button id="btnViewBookmark" class="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-lg hover:bg-yellow-200 transition flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14l7-7 7 7V5z" />
+        </svg>
+        Lihat Bookmark
+    </button>
+</div>
         </div>
     </div>
 
@@ -134,16 +178,9 @@
                         </svg>
                         Ayat {{ $a['nomor'] }}
                     </div>
+
+                    {{-- bookamrk button --}}
                     <div class="flex space-x-1">
-                        <button class="play-ayat-btn text-emerald-600 hover:text-emerald-800 p-2 rounded-full hover:bg-emerald-100 transition"
-                                data-audio="{{ $a['audio'] ?? '' }}"
-                                data-ayat="{{ $a['nomor'] }}"
-                                title="Putar Audio">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </button>
                         <button class="bookmark-btn text-emerald-600 hover:text-emerald-800 p-2 rounded-full hover:bg-emerald-100 transition"
                                 data-surah="{{ $surah['nomor'] }}"
                                 data-ayat="{{ $a['nomor'] }}"
@@ -153,30 +190,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                             </svg>
                         </button>
-                        <button class="share-btn text-emerald-600 hover:text-emerald-800 p-2 rounded-full hover:bg-emerald-100 transition"
-                                data-surah="{{ $surah['nomor'] }}"
-                                data-ayat="{{ $a['nomor'] }}"
-                                data-surat-name="{{ $surah['nama_latin'] }}"
-                                title="Bagikan">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                            </svg>
-                        </button>
+                       
                     </div>
                 </div>
-
                 <div class="text-right text-3xl font-arab leading-loose my-5 text-gray-800">{{ $a['ar'] }}</div>
-
                 <div class="terjemahan-container border-t pt-4 mt-4">
                     <div class="text-gray-700 leading-relaxed">{{ $a['idn'] }}</div>
                 </div>
-
-                <!-- Progress Bar untuk Audio (tersembunyi secara default) -->
-                <div class="audio-progress-container hidden mt-3">
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="audio-progress-bar bg-emerald-600 h-2.5 rounded-full" style="width: 0%"></div>
-                    </div>
-                </div>
+               
             </div>
         @endforeach
     </div>
@@ -211,6 +232,8 @@
     </div>
 </div>
 
+
+
 <!-- Jump to Ayat Modal -->
 <div id="jumpToAyatModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
     <div class="bg-white rounded-lg max-w-sm w-full p-6 transform transition-all">
@@ -238,9 +261,6 @@
         </div>
     </div>
 </div>
-
-<!-- Audio Player for Ayat -->
-<audio id="ayat-player" class="hidden"></audio>
 
 <script>
     // Notification System
@@ -313,42 +333,49 @@
         showNotification('info', 'Pengaturan', this.checked ? 'Terjemahan ditampilkan' : 'Terjemahan disembunyikan');
     });
 
-    // Modal Functionality
-    const modal = document.getElementById('bookmarkModal');
-    const closeModal = document.getElementById('closeModal');
-    const confirmModal = document.getElementById('confirmModal');
-    const modalContent = document.getElementById('modalContent');
-    const modalTitle = document.getElementById('modalTitle');
+// Modal Functionality
+const modal = document.getElementById('bookmarkModal');
+const closeModal = document.getElementById('closeModal');
+const confirmModal = document.getElementById('confirmModal');
+const modalContent = document.getElementById('modalContent');
+const modalTitle = document.getElementById('modalTitle');
 
-    function showModal(title, content) {
-        modalTitle.textContent = title;
-        modalContent.innerHTML = content;
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+function showModal(title, content) {
+    modalTitle.textContent = title;
+    modalContent.innerHTML = content;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function hideModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+closeModal.addEventListener('click', hideModal);
+confirmModal.addEventListener('click', hideModal);
+
+modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+        hideModal();
+    }
+});
+
+// Bookmark Functionality - hanya satu ayat boleh dibookmark
+document.querySelectorAll('.bookmark-btn').forEach(button => {
+    // Cek status bookmark awal
+    if (button.dataset.bookmarked === 'true') {
+        button.classList.add('text-yellow-500');
     }
 
-    function hideModal() {
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
+    button.addEventListener('click', function () {
+        const surah = this.dataset.surah;
+        const ayat = this.dataset.ayat;
+        const suratName = this.dataset.suratName;
+        const isCurrentlyBookmarked = this.dataset.bookmarked === 'true';
 
-    closeModal.addEventListener('click', hideModal);
-    confirmModal.addEventListener('click', hideModal);
-
-    // Click outside to close
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            hideModal();
-        }
-    });
-
-    // Bookmark Functionality
-    document.querySelectorAll('.bookmark-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const surah = this.dataset.surah;
-            const ayat = this.dataset.ayat;
-            const suratName = this.dataset.suratName;
-
+        // Jika sudah dibookmark, maka hapus
+        if (isCurrentlyBookmarked) {
             fetch("{{ route('quran.bookmark') }}", {
                 method: 'POST',
                 headers: {
@@ -357,51 +384,79 @@
                 },
                 body: JSON.stringify({
                     surah_number: surah,
-                    ayat_number: ayat
+                    ayat_number: ayat,
+                    action: 'remove'
                 })
             })
             .then(res => res.json())
             .then(data => {
                 if (data.status) {
-                    showNotification('success', 'Bookmark Berhasil', `Surah ${suratName} ayat ${ayat} berhasil ditambahkan ke bookmark`);
+                    this.classList.remove('text-yellow-500');
+                    this.dataset.bookmarked = 'false';
+                    showNotification('success', 'Bookmark Dihapus', 
+                        `Surah ${suratName} ayat ${ayat} berhasil dihapus dari bookmark`);
                 } else {
-                    showNotification('error', 'Terjadi Kesalahan', 'Gagal menambahkan bookmark');
-                    console.log(data.errors);
+                    showNotification('error', 'Terjadi Kesalahan', 'Gagal menghapus bookmark');
                 }
             });
-        });
-    });
+        } else {
+            // Kalau user klik ayat lain, hapus semua bookmark dulu (dari UI)
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                btn.classList.remove('text-yellow-500');
+                btn.dataset.bookmarked = 'false';
+            });
 
-    // Share Button Functionality
-    document.querySelectorAll('.share-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const surah = this.dataset.surah;
-            const ayat = this.dataset.ayat;
-            const suratName = this.dataset.suratName;
-
-            // Create share URL (modify as needed to match your site URLs)
-            const shareUrl = `${window.location.origin}/quran/${surah}?ayat=${ayat}`;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: `${suratName} ayat ${ayat}`,
-                    text: `Baca Surah ${suratName} ayat ${ayat}`,
-                    url: shareUrl
+            // Tambahkan bookmark baru
+            fetch("{{ route('quran.bookmark') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    surah_number: surah,
+                    ayat_number: ayat,
+                    action: 'add'
                 })
-                .then(() => showNotification('success', 'Bagikan', 'Berhasil membagikan ayat'))
-                .catch(error => console.log('Error sharing:', error));
-            } else {
-                // Fallback - copy to clipboard
-                navigator.clipboard.writeText(shareUrl)
-                    .then(() => {
-                        showNotification('success', 'Link Disalin', 'URL ayat telah disalin ke clipboard');
-                    })
-                    .catch(err => {
-                        showNotification('error', 'Gagal Menyalin', 'Tidak dapat menyalin URL ke clipboard');
-                    });
-            }
-        });
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status) {
+                    this.classList.add('text-yellow-500');
+                    this.dataset.bookmarked = 'true';
+                    showNotification('success', 'Bookmark Ditambahkan', 
+                        `Surah ${suratName} ayat ${ayat} berhasil ditambahkan ke bookmark`);
+                } else {
+                    showNotification('error', 'Terjadi Kesalahan', 'Gagal menambahkan bookmark');
+                }
+            });
+        }
     });
+});
+
+document.getElementById('btnViewBookmark').addEventListener('click', () => {
+    const bookmarked = document.querySelector('.bookmark-btn.text-yellow-500');
+
+    if (bookmarked) {
+        const ayat = bookmarked.dataset.ayat;
+        const targetId = `ayat-${ayat}`;
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetElement.classList.add('ring-4', 'ring-yellow-400');
+            setTimeout(() => {
+                targetElement.classList.remove('ring-4', 'ring-yellow-400');
+            }, 2000);
+        }
+    } else {
+        // Ganti alert dengan modal
+        showModal('Info', '<p>Belum ada ayat yang di-bookmark.</p>');
+    }
+});
+
+
+
 
     // Jump to Ayat Functionality
     const jumpToAyatModal = document.getElementById('jumpToAyatModal');
@@ -583,25 +638,6 @@ function updateProgressBar(ayatNumber) {
     }
 }
 
-// Back to Top Button
-const backToTopButton = document.getElementById('backToTop');
-
-window.addEventListener('scroll', function() {
-    if (window.pageYOffset > 300) {
-        backToTopButton.classList.remove('opacity-0', 'invisible');
-        backToTopButton.classList.add('opacity-100', 'visible');
-    } else {
-        backToTopButton.classList.remove('opacity-100', 'visible');
-        backToTopButton.classList.add('opacity-0', 'invisible');
-    }
-});
-
-backToTopButton.addEventListener('click', function() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
 
 // Check for ayat parameter in URL and scroll to it if present
 document.addEventListener('DOMContentLoaded', function() {
@@ -627,31 +663,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 2000);
             }, 500);
         }
-    }
-});
-
-// Handle keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    // Jump to ayat modal (Alt+J)
-    if (e.altKey && e.key === 'j') {
-        e.preventDefault();
-        jumpToAyatBtn.click();
-    }
-
-    // Toggle translation (Alt+T)
-    if (e.altKey && e.key === 't') {
-        e.preventDefault();
-        const translationToggle = document.getElementById('toggleTerjemahan');
-        translationToggle.checked = !translationToggle.checked;
-        translationToggle.dispatchEvent(new Event('change'));
-    }
-
-    // Toggle continuous play (Alt+C)
-    if (e.altKey && e.key === 'c') {
-        e.preventDefault();
-        const continuousPlayToggle = document.getElementById('toggleContinuousPlay');
-        continuousPlayToggle.checked = !continuousPlayToggle.checked;
-        continuousPlayToggle.dispatchEvent(new Event('change'));
     }
 });
 
@@ -684,3 +695,4 @@ function preloadAdjacentSurahs() {
     }
 }
 </script>
+@endsection

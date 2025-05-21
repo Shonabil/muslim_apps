@@ -4,10 +4,10 @@ use App\Http\Controllers\Api\ArticleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\QuranController as QuranController;
 use App\Http\Controllers\Api\DzikirController;
 use App\Http\Controllers\Api\DoaController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\BookmarkController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -33,9 +33,8 @@ Route::get('/dzikirs', [DzikirController::class, 'index']);
 Route::get('/dzikirs/{id}', [DzikirController::class, 'show']);
 
 
-    Route::get('/bookmarks', [QuranController::class, 'index']);
-    Route::post('/bookmarks', [QuranController::class, 'store']);
-    Route::delete('/bookmarks', [QuranController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/bookmark/toggle', [BookmarkController::class, 'toggle']);
+Route::middleware('auth:sanctum')->get('/bookmark/toggle', [BookmarkController::class, 'getBookmarks']);
 
 
 
