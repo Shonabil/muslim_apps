@@ -29,30 +29,6 @@
                     </div>
                 </div>
 
-                <!-- Last Read Bookmark -->
-                <div id="last-read-container" class="mb-6 hidden">
-                    <div class="bg-white rounded-xl shadow-md p-5 border-l-4 border-emerald-500">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Terakhir Dibaca</h3>
-                                <div class="flex items-center">
-                                    <span id="last-read-number" class="bg-emerald-100 text-emerald-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 font-bold"></span>
-                                    <div>
-                                        <h4 id="last-read-name" class="text-lg font-bold text-gray-800"></h4>
-                                        <p id="last-read-meaning" class="text-sm text-gray-600"></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a id="last-read-link" href="#" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 shadow-sm transition-colors duration-300 flex items-center">
-                                Lanjutkan
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Search and Filter Section -->
                 <div class="mb-10 bg-white rounded-xl shadow-md p-6">
                     <div class="flex flex-col md:flex-row gap-4">
@@ -129,11 +105,6 @@
             const loadMoreBtn = document.getElementById('load-more');
             const loadMoreContainer = document.getElementById('load-more-container');
             const loadMoreInfo = document.getElementById('load-more-info');
-            const lastReadContainer = document.getElementById('last-read-container');
-            const lastReadNumber = document.getElementById('last-read-number');
-            const lastReadName = document.getElementById('last-read-name');
-            const lastReadMeaning = document.getElementById('last-read-meaning');
-            const lastReadLink = document.getElementById('last-read-link');
 
             let allSurahs = [];
             let filteredSurahs = [];
@@ -152,30 +123,6 @@
                 'from-green-400 to-green-600'
             ];
 
-            // Check for last read surah in localStorage
-            function checkLastRead() {
-                const lastRead = localStorage.getItem('lastReadSurah');
-                if (lastRead) {
-                    const surah = JSON.parse(lastRead);
-                    displayLastRead(surah);
-                }
-            }
-
-            // Display last read surah
-            function displayLastRead(surah) {
-                lastReadNumber.textContent = surah.nomor;
-                lastReadName.textContent = surah.nama_latin;
-                lastReadMeaning.textContent = surah.arti;
-                lastReadLink.href = `/quran/${surah.nomor}`;
-                lastReadContainer.classList.remove('hidden');
-            }
-
-            // Store last read surah
-            function storeLastRead(surah) {
-                localStorage.setItem('lastReadSurah', JSON.stringify(surah));
-                displayLastRead(surah);
-            }
-
             // Fetch surah data
             fetch('https://quran-api.santrikoding.com/api/surah')
                 .then(response => {
@@ -187,9 +134,6 @@
                 .then(data => {
                     allSurahs = data;
                     loading.style.display = 'none';
-                    
-                    // Check for last read surah
-                    checkLastRead();
                     
                     // Initial load
                     filterAndDisplaySurahs();
@@ -268,7 +212,7 @@
                     const card = document.createElement('div');
                     card.className = 'animate-fadeIn transform transition duration-300 hover:-translate-y-1 hover:shadow-xl';
                     card.innerHTML = `
-                        <a href="/quran/${surah.nomor}" class="block h-full" onclick="event.preventDefault(); handleSurahClick(${surah.nomor})">
+                        <a href="/quran/${surah.nomor}" class="block h-full">
                             <div class="h-full bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-emerald-500 flex flex-col">
                                 <div class="p-6 flex-1">
                                     <div class="flex justify-between items-start mb-4">
@@ -323,15 +267,6 @@
                 filterSelect.value = 'all';
                 filterAndDisplaySurahs();
             }
-
-            // Handle surah click to store last read
-            window.handleSurahClick = function(surahNumber) {
-                const surah = allSurahs.find(s => s.nomor == surahNumber);
-                if (surah) {
-                    storeLastRead(surah);
-                    window.location.href = `/quran/${surahNumber}`;
-                }
-            };
         });
     </script>
 
