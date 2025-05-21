@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="bg-gradient-to-b from-emerald-50 to-white min-h-screen">
     <!-- Header dengan ornamen Islam -->
     <div class="relative pt-8 pb-4">
@@ -69,7 +70,7 @@
                                 </svg>
                             </a>
 
-                            <button class="text-emerald-600 hover:text-emerald-800">
+                            <button class="text-emerald-600 hover:text-emerald-800" title="Bookmark">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                                 </svg>
@@ -92,91 +93,59 @@
     </div>
 
     <!-- Navigasi pagination dengan styling khusus - hanya tampil jika ada data -->
-    @if(count($doas) > 0)
+    @if($doas->count() > 0)
         <div class="flex justify-center mb-12">
             <nav>
-               <ul class="flex space-x-2 justify-center mt-8">
-    <li>
-        @if ($doas->onFirstPage())
-            <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-300 border border-emerald-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-            </span>
-        @else
-            <a href="{{ $doas->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-            </a>
-        @endif
-    </li>
+                <ul class="flex space-x-2 justify-center mt-8">
+                    <!-- Tombol Previous -->
+                    <li>
+                        @if ($doas->onFirstPage())
+                            <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-300 border border-emerald-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        @else
+                            <a href="{{ $doas->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        @endif
+                    </li>
 
-       <!-- Navigasi pagination dengan styling khusus - hanya tampil jika ada data -->
-   @if ($doas->hasPages())
-    <ul class="flex flex-wrap justify-center gap-2 mt-10">
-        {{-- Tombol sebelumnya --}}
-        @if ($doas->onFirstPage())
-            <li>
-                <span class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </span>
-            </li>
-        @else
-            <li>
-                <a href="{{ $doas->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-            </li>
-        @endif
+                    <!-- Nomor halaman -->
+                    @for ($i = 1; $i <= $doas->lastPage(); $i++)
+                        <li>
+                            <a href="{{ $doas->url($i) }}"
+                               class="w-10 h-10 flex items-center justify-center rounded-full
+                                      {{ $doas->currentPage() == $i ? 'bg-emerald-600 text-white' : 'text-emerald-600 border border-emerald-200 hover:bg-emerald-50' }}">
+                                {{ $i }}
+                            </a>
+                        </li>
+                    @endfor
 
-        {{-- Nomor halaman --}}
-        @foreach ($doas->getUrlRange(1, $doas->lastPage()) as $page => $url)
-            <li>
-                <a href="{{ $url }}"
-                   class="w-10 h-10 flex items-center justify-center rounded-full border
-                          {{ $doas->currentPage() == $page ? 'bg-emerald-600 text-white' : 'text-emerald-600 hover:bg-emerald-50' }}">
-                    {{ $page }}
-                </a>
-            </li>
-        @endforeach
-
-        {{-- Tombol selanjutnya --}}
-        @if ($doas->hasMorePages())
-            <li>
-                <a href="{{ $doas->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </a>
-            </li>
-        @else
-            <li>
-                <span class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </span>
-            </li>
-        @endif
-    </ul>
-@endif
-</ul>
-
+                    <!-- Tombol Next -->
+                    <li>
+                        @if ($doas->hasMorePages())
+                            <a href="{{ $doas->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-emerald-200 text-emerald-600 hover:bg-emerald-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        @else
+                            <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-300 border border-emerald-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        @endif
+                    </li>
+                </ul>
             </nav>
         </div>
     @endif
-</div>
-@endsection
 
-@push('styles')
-<style>
-    .font-arabic {
-        font-family: 'Scheherazade New', 'Amiri', serif;
-    }
-</style>
-@endpush
+</div>
+
+@endsection
