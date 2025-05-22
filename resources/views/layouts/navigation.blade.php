@@ -6,8 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
-                        <img src="{{ asset('assets/logo-muslim-app.png') }}" alt="Logo Alternatif"
-                            class="w-20 h-20 object-contain">
+                        <img src="{{ asset('assets/logo-muslim-putih.png') }}" alt="Logo Alternatif"
+                            class="w-24 h-24 object-contain">
                         <span class="text-white font-semibold text-xl">IslamiApp</span>
                     </a>
                 </div>
