@@ -6,46 +6,65 @@
     <div class="relative pt-8 pb-4">
         <div class="absolute inset-0 flex justify-center">
             <div class="w-full max-w-5xl h-24 bg-contain bg-center bg-no-repeat opacity-10"
-                 style="background-image: url('/images/islamic-ornament.png')">
+                style="background-image: url('/images/islamic-ornament.png')">
             </div>
         </div>
-        <div class="relative z-10">
-            <h1 class="text-4xl font-bold text-emerald-800 mb-2 text-center font-arabic">مقالات إسلامية</h1>
-            <h2 class="text-2xl text-emerald-600 text-center">Artikel Islami Terbaru</h2>
+        <div class="relative z-10 text-center">
+            <h1 class="text-4xl font-bold text-emerald-800 mb-2 font-arabic">مقالات إسلامية</h1>
+            <h2 class="text-2xl text-emerald-600">Artikel Islami Terbaru</h2>
             <div class="flex justify-center mt-4">
                 <div class="h-1 w-36 bg-emerald-600 rounded"></div>
             </div>
         </div>
     </div>
 
-    <!-- Grid Artikel -->
+    <!-- Form Pencarian -->
+    <div class="max-w-md mx-auto px-4 mb-8">
+        <div class="relative">
+            <form action="{{ route('user.article.index') }}" method="GET" class="w-full">
+                <input type="text"
+                       name="search"
+                       placeholder="Cari artikel..."
+                       value="{{ old('search', $search ?? '') }}"
+                       class="w-full pl-4 pr-10 py-3 rounded-full border-2 border-emerald-200 focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">
+                <button type="submit" class="absolute right-3 top-3 text-emerald-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Daftar Artikel -->
     <div class="max-w-6xl mx-auto px-6 mt-10 mb-12">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($articles as $article)
                 <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-emerald-100">
-                    <!-- Header artikel dengan gradasi emerald -->
+                    <!-- Header -->
                     <div class="bg-gradient-to-r from-emerald-500 to-emerald-700 p-4 text-white">
-                        <h2 class="text-lg font-semibold">{{ $article->title }}</h2>
+                        <h2 class="text-lg font-semibold">{{ $article->title ?? 'Tanpa Judul' }}</h2>
                         <span class="text-sm opacity-80">{{ $article->created_at->format('d M Y') }}</span>
                     </div>
 
+                    <!-- Konten -->
                     <div class="p-5">
-                        <!-- Changed how we handle the markdown content -->
                         <div class="text-gray-600 text-sm leading-relaxed mb-5 article-content">
                             {!! Str::markdown(Str::limit(strip_tags($article->content), 150)) !!}
                         </div>
-
                         <a href="{{ route('user.article.show', $article->id) }}"
-                           class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg transition">
+                            class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg transition">
                             📖 Baca Selengkapnya
                         </a>
                     </div>
                 </div>
             @empty
+                <!-- Jika Tidak Ada Artikel -->
                 <div class="col-span-3 text-center py-16">
                     <div class="inline-block p-4 rounded-full bg-emerald-100 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M6.938 20h10.124c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L4.34 17c-.77 1.333.192 3 1.732 3z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01M6.938 20h10.124c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L4.34 17c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                     </div>
                     <p class="text-xl text-gray-500">Belum ada artikel yang tersedia.</p>
@@ -63,7 +82,6 @@
         font-family: 'Scheherazade New', 'Amiri', serif;
     }
 
-    /* Add specific styling for markdown content */
     .article-content {
         overflow-wrap: break-word;
         word-wrap: break-word;
@@ -73,18 +91,14 @@
         margin-bottom: 0.75rem;
     }
 
-    .article-content h1,
-    .article-content h2,
-    .article-content h3,
-    .article-content h4 {
+    .article-content h1, .article-content h2, .article-content h3, .article-content h4 {
         font-weight: 600;
         margin-top: 1rem;
         margin-bottom: 0.5rem;
         color: #065f46;
     }
 
-    .article-content ul,
-    .article-content ol {
+    .article-content ul, .article-content ol {
         padding-left: 1.5rem;
         margin-bottom: 0.75rem;
     }
@@ -141,8 +155,7 @@
         margin-bottom: 0.75rem;
     }
 
-    .article-content th,
-    .article-content td {
+    .article-content th, .article-content td {
         border: 1px solid #e5e7eb;
         padding: 0.5rem;
     }
